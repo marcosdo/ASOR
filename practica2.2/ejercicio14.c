@@ -14,29 +14,16 @@
 12: POSIX  ADVISORY  WRITE 480 00:13:12778 0 EOF
 
 
-1.- El identificador del bloqueo.
-
-2.- Tipo de bloqueo (POSIX si el bloqueo se hizo con fcntl y FLOCK si se creó con flock.)
-
-3.- Modo de bloqueo (ADVISORY o MANDATORY)
-
--Advisory: El acceso a los datos está permitido y evita otros bloqueos.
-
--Mandatory: El acceso a los datos está denegado mientras esté bloqueado.
-
-4.- Tipo de bloqueo (WRITE o READ), correspondiente a bloqueos compartidos o exclusivos.
-
--Write (Exclusivo): El proceso está escribiendo por lo que no se puede leer ni escribir en el área bloqueada.
-
--Read (Compartido): El proceso está leyendo por lo que el área no puede ser modificada.
-
-5.- PID del proceso que tiene el bloqueo sobre el fichero.
-
-6.- Tres números separados por :, que identifican el fichero bloqueado.
-
-7.- Byte donde comienza el bloqueo en el fichero.
-
-8.- Byte donde acaba el bloqueo del fichero.
+Each lock has its own line which starts with a unique number. 
+The second column refers to the class of lock used, with FLOCK signifying the older-style UNIX file locks
+ from a flock system call and POSIX representing 
+the newer POSIX locks from the lockf system call.
+The third column can have two values: ADVISORY or MANDATORY. 
+ADVISORY means that the lock does not prevent other people from accessing the data; it only prevents other 
+attempts to lock it. MANDATORY means that no other access to the data is permitted while the lock is held. 
+The fourth column reveals whether the lock is allowing the holder READ or WRITE access to the file. 
+The fifth column shows the ID of the process holding the lock. The sixth column shows the ID of the file being locked, 
+in the format of MAJOR-DEVICE:MINOR-DEVICE:INODE-NUMBER. The seventh and eighth column shows the start and end of the file's locked region.
 
 
 */
