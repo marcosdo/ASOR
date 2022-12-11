@@ -4,6 +4,8 @@
 #include <sys/wait.h>
 #include <string.h>
 
+#define P_WRITE 1
+#define P_READ 0
 
 // paginas Manual: fork 2, pipe 2 (plantilla), dup 2
 
@@ -26,17 +28,17 @@ int main (int argc, char ** argv){
         exit(EXIT_FAILURE);
     }
     if (cpid == 0) {    /* Hijo de tubería y ejecuta com2 arg2 */
-        dup2(pipefd[0], 0); // Redirecciona entrada estándar al extremo de lectura
-        close(pipefd[1]);          /* Close unused write end */
-        close(pipefd[0]);
-        execlp(argv[3], argv[3], argv[4]);
+        dup2(pipefd[P_READ], 0); // Redirecciona entrada estándar al extremo de lectura
+        close(pipefd[P_WRITE]);          /* Close unused write end */
+        close(pipefd[P_READ]);
+        execlp(argv[3], argv[3], argv[4], (char*)NULL); // tiene que terminar con un Nulo
         _exit(EXIT_SUCCESS);
     }
     else { /* Padre  de tubería y ejecuta com1 arg1*/
-        dup2(pipefd[1], 1); // Redirecciona salida estándar al extremo de escritura
-        close(pipefd[0]);          /* Close unused read end */
-        close(pipefd[1]);       /* Reader will see EOF */
-        execlp(argv[1], argv[1], argv[2]);
+        dup2(pipefd[P_WRITE], 1); // Redirecciona salida estándar al extremo de escritura
+        close(pipefd[P_READ]);          /* Close unused read end */
+        close(pipefd[P_WRITE]);       /* Reader will see EOF */
+        execlp(argv[1], argv[1], argv[2], (char*)NULL);
         exit(EXIT_SUCCESS);
     }
 }
