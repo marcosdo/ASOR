@@ -15,10 +15,9 @@ int main(int argc, char **argv){
         exit(EXIT_FAILURE);
     }
 
-    char *HOME = getenv("HOME"); // getenv 3 
-    char *pipe = strcat(HOME, "/pipe");
+    char pipe [] = "/home/cursoredes/Documents/P4/pipe";
     printf("HOME: %s\n", pipe);
-  	mkfifo(pipe, 0222); // permiso solo escritura w
+  	mkfifo(pipe, 0777); 
 
     int fd = open(pipe, O_WRONLY);
     write(fd, argv[1], strlen(argv[1]));
@@ -26,3 +25,13 @@ int main(int argc, char **argv){
 
     return 0;
 }
+
+/*
+En un terminal:
+[cursoredes@localhost P4]$ ./ejercicio4 Prueba12344
+HOME: /home/cursoredes/Documents/P4/pipe
+
+En un segundo terminal:
+[cursoredes@localhost P4]$ cat pipe
+Prueba12344
+*/
