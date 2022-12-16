@@ -75,7 +75,6 @@ int main(int argc, char **argv){
             while (c = recv(clisd, buf, 80, 0)) { // Comprobar mensaje!
                 send(clisd, buf, c, 0);
             }
-            printf("Conexión terminada.\n");
 
             close(clisd);
         }
