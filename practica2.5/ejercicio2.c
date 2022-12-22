@@ -27,9 +27,10 @@ int main(int argc, char *argv[]) {
     struct addrinfo *result;
 
     // Plantilla de UDP. ver diap. 2.4 - 16
-    hints.ai_flags    = 0;
+    hints.ai_flags    = AI_PASSIVE;
     hints.ai_family   = AF_UNSPEC;   // IPv4 o IPv6
     hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_protocol = 0;
 
     int rc, sd, bd, c, err;
 
