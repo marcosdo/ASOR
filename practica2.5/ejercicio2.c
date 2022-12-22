@@ -60,7 +60,6 @@ int main(int argc, char *argv[]) {
     do {
         struct sockaddr_storage addr;
         socklen_t addrlen = sizeof(addr);
-        addrlen = sizeof(addr);
 
         if ((c = recvfrom(sd, buf, 2, 0, (struct sockaddr *) &addr, &addrlen)) == -1) {
             perror("recvfrom(..)");

@@ -48,7 +48,6 @@ int main(int argc, char *argv[]) {
 
     struct sockaddr_storage addr;
     socklen_t addrlen = sizeof(addr);
-    addrlen = sizeof(addr);
 
     // ENVIO
     if ((err = sendto(sd, argv[3], sizeof(argv[3]), 0, result->ai_addr, result->ai_addrlen)) == -1) {

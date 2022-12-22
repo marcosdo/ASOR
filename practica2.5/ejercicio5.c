@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     char serv[NI_MAXSERV];
 
     int i = 0;
-    while (i < 10) {
+    while (i < 2) {
         // Plantilla fork. ver diap 2.3 - 15
         pid_t pid;
         pid = fork();
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
                         char msg[size_msg];
 
                         switch (buf[0]) {
-                            case 't': 
+                            case 't':
                             case 'd': {
                                 size_t strf;
                                 if (buf[0] == 't')
@@ -129,11 +129,14 @@ int main(int argc, char *argv[]) {
                                 }
                             } break;
                             case 'q': {
-                                kill(getpgid(getpid()), SIGTERM);
-                                printf("> recv: PID %d - Saliendo\n");
+                                kill(getgid(getpid()), SIGTERM);
+                                printf("  'q' - Saliendo\n");
+                                // CERRAR SOCKET
+                                close(sd);
+                                exit(EXIT_SUCCESS);
                             } break;
                             default: {
-                                printf("> recv: PID %d - ERROR: cmd\n");
+                                printf("  ERROR: cmd\n");
                             } break;
                         }
                         sendto(sd, buf, c, 0, (struct sockaddr *) &addr, addrlen);
@@ -146,9 +149,6 @@ int main(int argc, char *argv[]) {
         }
         ++i;
     }
-
-    // CERRAR SOCKET
-    close(sd);
 
     return 0;
 }
